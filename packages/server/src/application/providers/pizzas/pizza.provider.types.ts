@@ -7,14 +7,3 @@ export interface Pizza {
   imgSrc: string;
   toppingIds: Array<string>;
 }
-
-//   export interface CreateToppingInput {
-//     name: string;
-//     priceCents: number;
-//   }
-
-//   export interface UpdateToppingInput {
-//     id: string;
-//     name?: string | null;
-//     priceCents?: number | null;
-//   }
