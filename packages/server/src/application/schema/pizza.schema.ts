@@ -12,10 +12,6 @@ const typeDefs = gql`
   type Query {
     pizzas: [Pizza!]!
   }
-
-  input PizzasQueryArgs {
-    id: ObjectID!
-  }
 `;
 
 export { typeDefs };
