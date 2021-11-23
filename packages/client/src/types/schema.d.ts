@@ -50,10 +50,6 @@ export type Pizza = {
   toppingIds: Array<Scalars['String']>;
 };
 
-export type PizzasQueryArgs = {
-  id: Scalars['ObjectID'];
-};
-
 export type Query = {
   __typename?: 'Query';
   pizzas: Array<Pizza>;
