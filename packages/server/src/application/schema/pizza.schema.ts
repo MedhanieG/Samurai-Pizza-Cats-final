@@ -5,7 +5,8 @@ const typeDefs = gql`
     id: ObjectID!
     name: String!
     description: String!
-    toppingIds: [String!]!
+    toppings: [Topping!]!
+
     imgSrc: String!
   }
 
@@ -15,3 +16,4 @@ const typeDefs = gql`
 `;
 
 export { typeDefs };
+//toppingIds: [String!]!
