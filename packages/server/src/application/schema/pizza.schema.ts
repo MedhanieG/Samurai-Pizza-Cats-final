@@ -14,6 +14,4 @@ const typeDefs = gql`
     pizzas: [Pizza!]!
   }
 `;
-
 export { typeDefs };
-//toppingIds: [String!]!
