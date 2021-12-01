@@ -1,28 +1,24 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { makeStyles } from '@material-ui/styles';
 import { Container, Grid } from '@material-ui/core';
 import PizzaItem from './PizzaItem';
+import CardItemSkeleton from '../common/CardItemSkeleton';
 
 import PageHeader from '../common/PageHeader';
 import { Pizza } from '../../types';
 import { GET_PIZZAS } from '../../hooks/graphql/topping/queries/get-pizzas';
 
-export const useStyles = makeStyles(() => ({
-  skeleton: {
-    display: 'flex',
-    justifyContent: 'center',
-    verticalAlign: 'center',
-  },
-}));
-
 const Pizzas: React.FC = () => {
-  const classes = useStyles();
-  const { loading, data } = useQuery(GET_PIZZAS);
+  const { loading, error, data } = useQuery(GET_PIZZAS);
 
   if (loading) {
-    return <div className={classes.skeleton}>Loading ...</div>;
+    return <CardItemSkeleton data-testid="pizza-list-loading"> </CardItemSkeleton>;
   }
+
+  if (error) {
+    return <p>There was an error loading the data!</p>;
+  }
+
   const pizzaList = data?.pizzas.map((pizza: Pizza) => (
     <PizzaItem data-testid={`pizza-item-${pizza?.id}`} key={pizza.id} pizza={pizza} />
   ));
