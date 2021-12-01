@@ -1,7 +1,9 @@
+import { Topping } from './schema';
+
 export interface Pizza {
   id: string;
   name: string;
   description: string;
   imgSrc: string;
-  toppingIds: Array<string>;
+  toppings: Array<Topping>;
 }
