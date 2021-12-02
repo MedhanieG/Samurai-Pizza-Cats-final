@@ -1,6 +1,7 @@
 import { CardContent, CardMedia, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
+import toDollars from '../../lib/format-dollars';
 import { Pizza } from '../../types';
 import CardItem from '../common/CardItem';
 
@@ -40,6 +41,10 @@ const PizzaItem: React.FC<PizzaItemProps> = ({ pizza }) => {
 
         <Typography gutterBottom variant="body2" className={classes.typo}>
           {pizzaToppingList}
+        </Typography>
+
+        <Typography gutterBottom variant="subtitle1">
+          <p data-testid={`pizza-price-${pizza?.id}`}>{pizza?.priceCents ? toDollars(pizza.priceCents) : ''}</p>
         </Typography>
       </CardContent>
     </CardItem>

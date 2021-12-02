@@ -6,7 +6,17 @@ import validateStringInputs from '../../../lib/string-validator';
 class ToppingProvider {
   constructor(private collection: Collection<ToppingDocument>) {}
 
-  //---------getToppingsByIds takes Array of toppingIds and returns an array of toppings-------
+  public async getPriceCents(toppingIds: Array<string>): Promise<number> {
+    const records = await this.collection
+      .find({ _id: { $in: toppingIds } })
+      .sort({ name: 1 })
+      .toArray();
+    const priceList = records.map((records) => records.priceCents);
+    let total = priceList.reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+    return total;
+  }
+
+  //getToppingsByIds takes Array of toppingIds and returns an array of toppings
   public async getToppingsByIds(toppingIds: Array<string>): Promise<Topping[]> {
     const records = await this.collection
       .find({ _id: { $in: toppingIds } })

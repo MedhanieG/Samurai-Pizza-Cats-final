@@ -6,10 +6,11 @@ interface newPizza extends Pizza {
 }
 
 type toppingOmit = Omit<newPizza, 'toppings'>;
+type priceCentOmit = Omit<toppingOmit, 'priceCents'>;
 
 const pizzaResolver = {
   Query: {
-    pizzas: async (): Promise<toppingOmit[]> => {
+    pizzas: async (): Promise<priceCentOmit[]> => {
       return pizzaProvider.getPizza();
     },
   },
