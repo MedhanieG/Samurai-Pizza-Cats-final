@@ -6,18 +6,28 @@ import validateStringInputs from '../../../lib/string-validator';
 class ToppingProvider {
   constructor(private collection: Collection<ToppingDocument>) {}
 
-  public async getPriceCents(toppingIds: Array<string>): Promise<number> {
+  public async validateToppings(input: Array<ObjectId>): Promise<void> {
+    const toppingIds = input.map((s) => new ObjectId(s));
+    const inputCount = input.length;
+    const validCount = await this.collection.countDocuments({ _id: { $in: toppingIds } });
+
+    if (inputCount != validCount) {
+      throw new Error(`Topping ${toppingIds} can not be found `);
+    }
+  }
+
+  public async getPriceCents(toppingIds: Array<ObjectId>): Promise<number> {
     const records = await this.collection
       .find({ _id: { $in: toppingIds } })
       .sort({ name: 1 })
       .toArray();
     const priceList = records.map((records) => records.priceCents);
     let total = priceList.reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+
     return total;
   }
 
-  //getToppingsByIds takes Array of toppingIds and returns an array of toppings
-  public async getToppingsByIds(toppingIds: Array<string>): Promise<Topping[]> {
+  public async getToppingsByIds(toppingIds: Array<ObjectId>): Promise<Topping[]> {
     const records = await this.collection
       .find({ _id: { $in: toppingIds } })
       .sort({ name: 1 })
@@ -28,7 +38,6 @@ class ToppingProvider {
 
   public async getToppings(): Promise<Topping[]> {
     const toppings = await this.collection.find().sort({ name: 1 }).toArray();
-
     return toppings.map(toToppingObject);
   }
 
