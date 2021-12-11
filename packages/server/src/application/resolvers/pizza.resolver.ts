@@ -20,12 +20,7 @@ const pizzaResolver = {
 
   Mutation: {
     createPizza: async (_: Root, args: { input: CreatePizzaInput }): Promise<priceCentOmit> => {
-      try {
-        await toppingProvider.validateToppings(args.input.toppingIds);
-        return pizzaProvider.createPizza(args.input);
-      } catch (e) {
-        throw e;
-      }
+      return pizzaProvider.createPizza(args.input);
     },
 
     updatePizza: async (_: Root, args: { input: UpdatePizzaInput }): Promise<priceCentOmit> => {

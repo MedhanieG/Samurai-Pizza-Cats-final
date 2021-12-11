@@ -2,6 +2,7 @@ import { ObjectId, Collection } from 'mongodb';
 import validateStringInputs from '../../../lib/string-validator';
 import { PizzaDocument, toPizzaObject } from '../../../entities/pizza';
 import { Pizza, CreatePizzaInput, UpdatePizzaInput } from './pizza.provider.types';
+import { toppingProvider } from '../index';
 
 class PizzaProvider {
   constructor(private collection: Collection<PizzaDocument>) {}
@@ -13,7 +14,14 @@ class PizzaProvider {
 
   public async createPizza(input: CreatePizzaInput): Promise<Pizza> {
     const { description, name, imgSrc, toppingIds } = input;
-    if ([description, name, imgSrc]) validateStringInputs([description, name, imgSrc]);
+
+    try {
+      await toppingProvider.validateToppings(toppingIds);
+    } catch (e) {
+      throw e;
+    }
+
+    validateStringInputs([description, name, imgSrc]);
 
     const data = await this.collection.findOneAndUpdate(
       { _id: new ObjectId() },
