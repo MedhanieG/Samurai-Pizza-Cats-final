@@ -44,7 +44,6 @@ describe('toppingResolver', (): void => {
         jest.spyOn(toppingProvider, 'getToppings').mockResolvedValue([mockTopping]);
 
         const result = await client.query({ query });
-
         expect(result.data).toEqual({
           toppings: [
             {

@@ -8,11 +8,16 @@ class ToppingProvider {
 
   public async validateToppings(input: Array<ObjectId>): Promise<void> {
     const toppingIds = input.map((s) => new ObjectId(s));
+    const mytoppings = (await this.getToppings()).map((records) => records.id);
+
+    let objectIdArray = toppingIds.map((x) => x.toString());
+
     const inputCount = input.length;
     const validCount = await this.collection.countDocuments({ _id: { $in: toppingIds } });
+    const result = objectIdArray.every((element) => mytoppings.includes(element));
 
-    if (inputCount != validCount) {
-      throw new Error(`Topping ${toppingIds} can not be found `);
+    if (!result) {
+      throw new Error(`Topping ${toppingIds} can not be found`);
     }
   }
 
